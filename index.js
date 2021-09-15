@@ -1,3 +1,5 @@
+let globalTaskData = [];
+
 const addCard = () => {
     const newTaskDetails = {
         id: `${Date.now()}`,
@@ -9,6 +11,9 @@ const addCard = () => {
 
     taskContents = document.getElementById("taskContentsrow");
     taskContents.insertAdjacentHTML('beforeend', generateTaskCard(newTaskDetails));
+
+    globalTaskData.push(newTaskDetails);
+    saveToLocalStorage();
 }
 
 const generateTaskCard = ({id, url, title, type, description}) => {
@@ -35,4 +40,17 @@ const generateTaskCard = ({id, url, title, type, description}) => {
             </div>
         </div>
     </div>`)
+}
+
+const saveToLocalStorage = () =>{
+    localStorage.setItem("akashtasks", JSON.stringify({tasks: globalTaskData}));
+}
+
+const reloadCardData = () =>{
+    const localStorageCopy = JSON.parse(localStorage.getItem("akashtasks"));
+    console.log(localStorageCopy);
+    if(localStorageCopy) {
+        globalTaskData = localStorageCopy["tasks"];
+    }
+
 }
