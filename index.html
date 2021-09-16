@@ -9,8 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TASK-MANAGEMENT</title>
 </head>
-<body>
-
+<body onload="reloadTaskCard()">
     <div class="modal fade" id="newcardmodal" tabindex="-1" aria-labelledby="newCardModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -69,8 +68,7 @@
     
     <main class="container">
         <section>
-            <div id="taskContentsrow" class="row">
-            </div>
+            <div id="taskContentsrow" class="row"></div>
         </section>
     </main>
 

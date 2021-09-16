@@ -1,4 +1,5 @@
 let globalTaskData = [];
+taskContents = document.getElementById("taskContentsrow");
 
 const addCard = () => {
     const newTaskDetails = {
@@ -9,7 +10,6 @@ const addCard = () => {
         description: document.getElementById("taskDescription").value
     };
 
-    taskContents = document.getElementById("taskContentsrow");
     taskContents.insertAdjacentHTML('beforeend', generateTaskCard(newTaskDetails));
 
     globalTaskData.push(newTaskDetails);
@@ -24,8 +24,8 @@ const generateTaskCard = ({id, url, title, type, description}) => {
                     <button type="button" class="btn btn-outline-info">
                         <i class="fas fa-pencil-alt"></i>
                     </button>
-                    <button type="button" class="btn btn-outline-danger">
-                        <i class="far fa-trash-alt"></i>
+                    <button type="button" class="btn btn-outline-danger" name=${id} onclick="deleteTask(this)">
+                        <i class="far fa-trash-alt" name=${id} onclick="deleteTask(this)"></i>
                     </button>
                 </div>
             </div>
@@ -42,15 +42,25 @@ const generateTaskCard = ({id, url, title, type, description}) => {
     </div>`)
 }
 
-const saveToLocalStorage = () =>{
-    localStorage.setItem("akashtasks", JSON.stringify({tasks: globalTaskData}));
+const saveToLocalStorage = () => {
+    localStorage.setItem("akashtasks", JSON.stringify({akash: globalTaskData}));
 }
 
-const reloadCardData = () =>{
+const reloadTaskCard = () => {
     const localStorageCopy = JSON.parse(localStorage.getItem("akashtasks"));
     console.log(localStorageCopy);
     if(localStorageCopy) {
-        globalTaskData = localStorageCopy["tasks"];
+        globalTaskData = localStorageCopy["akash"];
     }
+    console.log(globalTaskData)
+    globalTaskData.map((cardData) => {
+        taskContents.insertAdjacentHTML('beforeend', generateTaskCard(cardData));
+    })
+}
 
+const deleteTask = (e) => {
+    const targetID = e.getAttribute("name");
+    globalTaskData = globalTaskData.filter((cardData) => cardData.id!==targetID);
+    saveToLocalStorage();
+    window.location.reload();
 }
