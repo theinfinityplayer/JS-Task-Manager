@@ -85,20 +85,30 @@ const editTask = (e) => {
 }
 
 const saveEditTask = (e) => {
+    if (!e) e = window.event;
     const targetID = e.getAttribute("name");
-    console.log(e)
-    // console.log(e.parentNode)
-    // console.log(e.parentNode.parentNode.parentNode.childNodes)
-    // console.log(e.parentNode.parentNode.parentNode.childNodes[5].childNodes[1])
-    // console.log(e.parentNode.parentNode.parentNode.childNodes[5].childNodes[3])
-    // console.log(e.parentNode.parentNode.parentNode.childNodes[5].childNodes[5])
-
-    // you will get all the updated fields
-    // then update it inside the localStorage corresponding to that card id
-    // after that saveToLocalStorage
-    // window.location.reload();
-}
-
-
-// var suppose = {id: "1631720624226", url: "egtrshs", title: "tshdj", type: "dyjdyj", description: "dyjydj"}
-// suppose.description = "my name is nikhil agarwal"
+      
+        let stateCopy = globalTaskData;
+        stateCopy = stateCopy.map((task) =>
+          task.id === targetID
+            ? {
+                id: task.id,
+                title: updateData.e.parentNode.parentNode.parentNode.childNodes[5].childNodes[1],
+                description: updateData.e.parentNode.parentNode.parentNode.childNodes[5].childNodes[3],
+                type: updateData.e.parentNode.parentNode.parentNode.childNodes[5].childNodes[5],
+                url: task.url,
+              }
+            : task
+        );
+      
+        globalTaskData = stateCopy;
+        saveToLocalStorage();
+        e.parentNode.parentNode.parentNode.childNodes[5].childNodes[1].setAttribute("contenteditable", "false");
+        e.parentNode.parentNode.parentNode.childNodes[5].childNodes[3].setAttribute("contenteditable", "false");
+        e.parentNode.parentNode.parentNode.childNodes[5].childNodes[5].setAttribute("contenteditable", "false");
+        e.parentNode.parentNode.parentNode.childNodes[7].childNodes[1].setAttribute("onclick", "openTask.apply(this, arguments)");
+        e.parentNode.parentNode.parentNode.childNodes[7].childNodes[1].setAttribute("data-bs-toggle", "modal");
+        e.parentNode.parentNode.parentNode.childNodes[7].childNodes[1].setAttribute("data-bs-target", "#showTask");
+        e.parentNode.parentNode.parentNode.childNodes[7].childNodes[1].innerHTML = "Open Task";
+      };
+    
