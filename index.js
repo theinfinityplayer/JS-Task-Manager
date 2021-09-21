@@ -114,8 +114,8 @@ const saveEditTask = (e) => {
   taskDescription.setAttribute("contenteditable", "false");
   taskType.setAttribute("contenteditable", "false");
   submitButton.setAttribute("onclick", "openTask.apply(this, arguments)");
-  submitButton.setAttribute("data-bs-toggle", "modal");
-  submitButton.setAttribute("data-bs-target", "#showTask");
+  //submitButton.setAttribute("data-bs-toggle", "modal");
+  //submitButton.setAttribute("data-bs-target", "#showTask");
   submitButton.innerHTML = "Open Task";
 };
     
