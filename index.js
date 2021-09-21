@@ -68,47 +68,54 @@ const deleteTask = (e) => {
 const editTask = (e) => {
     console.log(e)
     console.log(e.parentNode)
-    console.log(e.parentNode.parentNode.parentNode.childNodes)
+    console.log(e.parentNode.parentNode.parentNode.childNodes[5])
     console.log(e.parentNode.parentNode.parentNode.childNodes[5].childNodes[1])
     console.log(e.parentNode.parentNode.parentNode.childNodes[5].childNodes[3])
-    console.log(e.parentNode.parentNode.parentNode.childNodes[5].childNodes[5])
+    console.log(e.parentNode.parentNode.parentNode.childNodes[5].childNodes[3])
 
     e.parentNode.parentNode.parentNode.childNodes[5].childNodes[1].setAttribute("contenteditable", "true")
     e.parentNode.parentNode.parentNode.childNodes[5].childNodes[3].setAttribute("contenteditable", "true")
     e.parentNode.parentNode.parentNode.childNodes[5].childNodes[5].setAttribute("contenteditable", "true")
 
     console.log(e.parentNode.parentNode.parentNode.childNodes[7].childNodes[1])
-    e.parentNode.parentNode.parentNode.childNodes[7].childNodes[1].style.setProperty("border", "1px solid red")
-    e.parentNode.parentNode.parentNode.childNodes[7].childNodes[1].style.setProperty("background", "blue")
     e.parentNode.parentNode.parentNode.childNodes[7].childNodes[1].setAttribute("onclick", "saveEditTask(this)")
     e.parentNode.parentNode.parentNode.childNodes[7].childNodes[1].innerHTML = "SAVE CHANGES"
 }
 
 const saveEditTask = (e) => {
-    if (!e) e = window.event;
-    const targetID = e.getAttribute("name");
-      
-        let stateCopy = globalTaskData;
-        stateCopy = stateCopy.map((task) =>
-          task.id === targetID
-            ? {
-                id: task.id,
-                title: updateData.e.parentNode.parentNode.parentNode.childNodes[5].childNodes[1],
-                description: updateData.e.parentNode.parentNode.parentNode.childNodes[5].childNodes[3],
-                type: updateData.e.parentNode.parentNode.parentNode.childNodes[5].childNodes[5],
-                url: task.url,
-              }
-            : task
-        );
-      
-        globalTaskData = stateCopy;
-        saveToLocalStorage();
-        e.parentNode.parentNode.parentNode.childNodes[5].childNodes[1].setAttribute("contenteditable", "false");
-        e.parentNode.parentNode.parentNode.childNodes[5].childNodes[3].setAttribute("contenteditable", "false");
-        e.parentNode.parentNode.parentNode.childNodes[5].childNodes[5].setAttribute("contenteditable", "false");
-        e.parentNode.parentNode.parentNode.childNodes[7].childNodes[1].setAttribute("onclick", "openTask.apply(this, arguments)");
-        e.parentNode.parentNode.parentNode.childNodes[7].childNodes[1].setAttribute("data-bs-toggle", "modal");
-        e.parentNode.parentNode.parentNode.childNodes[7].childNodes[1].setAttribute("data-bs-target", "#showTask");
-        e.parentNode.parentNode.parentNode.childNodes[7].childNodes[1].innerHTML = "Open Task";
-      };
+  const targetID = e.getAttribute("name");
+  console.log(e.parentNode.parentNode.parentNode.childNodes[1].childNodes[7].childNodes[1])
+  const taskTitle = e.parentNode.parentNode.parentNode.childNodes[1].childNodes[5].childNodes[1];
+  const taskDescription = e.parentNode.parentNode.parentNode.childNodes[1].childNodes[5].childNodes[3];
+  const submitButton = e.parentNode.parentNode.parentNode.childNodes[1].childNodes[7].childNodes[1];
+  const taskType = e.parentNode.parentNode.parentNode.childNodes[1].childNodes[5].childNodes[5];
+  const updateData = {
+    taskTitle: taskTitle.innerHTML,
+    taskDescription: taskDescription.innerHTML,
+    taskType: taskType.innerHTML,
+  };
+
+  let stateCopy = globalTaskData;
+  stateCopy = stateCopy.map((task) =>
+    task.id === targetID
+      ? {
+          id: task.id,
+          title: updateData.taskTitle,
+          description: updateData.taskDescription,
+          type: updateData.taskType,
+          url: task.url,
+        }
+      : task
+  );
+
+  globalTaskData = stateCopy;
+  saveToLocalStorage();
+  taskTitle.setAttribute("contenteditable", "false");
+  taskDescription.setAttribute("contenteditable", "false");
+  taskType.setAttribute("contenteditable", "false");
+  submitButton.setAttribute("onclick", "openTask.apply(this, arguments)");
+  submitButton.setAttribute("data-bs-toggle", "modal");
+  submitButton.setAttribute("data-bs-target", "#showTask");
+  submitButton.innerHTML = "Open Task";
+};
     
